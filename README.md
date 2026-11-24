@@ -4,11 +4,13 @@ Projekt własnego, internetowego silnika map 3D opartego na danych OpenStreetMap
 
 ## Uruchomienie
 
+Gotowa paczka jest w zakładce [Releases](https://github.com/FiLL25AG/3DOSM/releases). Pobierz plik `3DOSM-<wersja>.zip`, rozpakuj go i uruchom `start.cmd` dwuklikiem. Z repozytorium możesz też uruchomić aplikację poleceniem:
+
 ```powershell
 .\run.ps1
 ```
 
-Aplikacja działa pod adresem `http://127.0.0.1:8473`. Wymaga Pythona 3.12 i dostępu do internetu przy pierwszym pobraniu danych. Stan pierwszego wycinka opisuje [dokument decyzji implementacyjnych](docs/09-decyzje-implementacyjne.md).
+Aplikacja działa pod adresem `http://127.0.0.1:8473`. Wymaga systemu Windows, Pythona 3.12 lub nowszego oraz dostępu do internetu przy pierwszym uruchomieniu (instalacja zależności i pobranie danych). Stan pierwszego wycinka opisuje [dokument decyzji implementacyjnych](docs/09-decyzje-implementacyjne.md).
 
 ## Dokumentacja
 
