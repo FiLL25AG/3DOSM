@@ -23,3 +23,7 @@ Aplikacja działa pod adresem `http://127.0.0.1:8473`. Wymaga Pythona 3.12 i dos
 - [Decyzje implementacyjne i stan wycinka](docs/09-decyzje-implementacyjne.md)
 
 Dokumentacja opisuje kierunek projektu, nie stan implementacji. Szczegóły oznaczone jako otwarte wymagają późniejszej decyzji lub weryfikacji źródeł danych.
+
+## Licencja
+
+Kod projektu jest udostępniony na licencji [MIT](LICENSE). Biblioteki w `web/vendor` mają własne licencje, dołączone obok nich. Dane OpenStreetMap © współtwórcy OpenStreetMap, licencja ODbL.
