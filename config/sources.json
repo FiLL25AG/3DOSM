@@ -1,0 +1,48 @@
+{
+  "$comment": "Konfiguracja adapterów źródeł. Silnik nie zawiera adresów usług; patrz docs/09-decyzje-implementacyjne.md.",
+  "version": 1,
+  "client": { "userAgent": "3DOSM-prototype/0.1 (read-only)", "requestPauseSeconds": 1.0, "timeoutSeconds": 60, "retries": 3, "deadlineSeconds": 240 },
+  "scene": {
+    "id": "siekierkowski",
+    "name": "Most Siekierkowski",
+    "searchBboxWgs84": { "west": 21.05, "south": 52.195, "east": 21.15, "north": 52.235 },
+    "seedBridgeWay": 362216407,
+    "seedRouteRelation": 7421590,
+    "riverWays": [5115900, 61133473, 61133499],
+    "riverReachMeters": 1000,
+    "bufferMeters": 200,
+    "testLocations": [
+      { "name": "Most Siekierkowski", "osm": "way/362216407", "note": "pierwszy wycinek" },
+      { "name": "Rondo Marsa (kandydat)", "osm": "way/302956384", "note": "poza wycinkiem" },
+      { "name": "Wiadukty Żołnierskiej", "osm": "way/23502658", "note": "poza wycinkiem" },
+      { "name": "Zielonka / Marki (kandydat)", "osm": "way/25559261", "note": "poza wycinkiem; położenie do potwierdzenia" },
+      { "name": "Rzeka Długa", "osm": "way/1421625274", "note": "poza wycinkiem" },
+      { "name": "Pałac Kultury i Nauki", "osm": "way/7305241", "note": "poza wycinkiem" }
+    ]
+  },
+  "osm": {
+    "id": "osm",
+    "label": "OpenStreetMap",
+    "apiBase": "https://api.openstreetmap.org/api/0.6",
+    "cellDegrees": { "lon": 0.025, "lat": 0.02 },
+    "crs": "EPSG:4326",
+    "license": { "name": "ODbL 1.0", "url": "https://www.openstreetmap.org/copyright", "attribution": "© OpenStreetMap contributors", "status": "potwierdzona" }
+  },
+  "nmt": {
+    "id": "gugik-nmt",
+    "label": "GUGiK NMT 1 m",
+    "indexUrl": "https://mapy.geoportal.gov.pl/wss/service/PZGIK/NumerycznyModelTerenuEVRF2007/WFS/Skorowidze",
+    "years": [2026, 2025, 2024, 2023, 2022, 2021, 2020, 2019],
+    "requiredVerticalDatum": "PL-EVRF2007-NH",
+    "requiredHorizontalCrs": "PL-1992",
+    "requiredFormat": "ARC/INFO ASCII GRID",
+    "requiredResolution": "1.00 m",
+    "license": {
+      "name": "Dane bezpłatne, „możliwe do dowolnego wykorzystania” (opis produktu w Geoportalu, odczyt 2026-11-18)",
+      "url": "https://www.geoportal.gov.pl/pl/dane/numeryczny-model-terenu-nmt/",
+      "attribution": "Źródło: GUGiK, NMT",
+      "status": "potwierdzona na stronie produktu"
+    }
+  },
+  "cache": { "directory": "data/cache", "defaultLimitBytes": 10000000000 }
+}

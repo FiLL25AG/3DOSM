@@ -1,0 +1,1 @@
+"""Wymienne adaptery źródeł danych."""

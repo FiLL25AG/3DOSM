@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3D OSM — Most Siekierkowski</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script type="importmap">{ "imports": { "three": "/vendor/three.module.js" } }</script>
+</head>
+<body>
+  <div id="map" aria-label="Mapa 3D"></div>
+  <div id="labels" aria-hidden="true"></div>
+  <section id="top-panel" class="panel" aria-label="Warstwy i nawigacja"></section>
+  <section id="bottom-panel" class="panel" aria-label="Inspektor i diagnostyka"></section>
+  <div id="attribution"></div>
+  <div id="toast" role="status" hidden></div>
+  <div id="loader"><div class="loader-box"><strong>3D OSM</strong><span id="loader-text">Łączenie z serwerem…</span></div></div>
+  <dialog id="dialog"></dialog>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

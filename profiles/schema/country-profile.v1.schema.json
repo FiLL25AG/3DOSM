@@ -1,0 +1,1431 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://3dosm.local/schema/country-profile.v1.schema.json",
+  "title": "Profil kraju 3D OSM, wersja schematu 1",
+  "description": "Konfiguracja deklaratywna. Schemat dopuszcza wyłącznie dane: nie ma pól na kod ani wyrażenia.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "profileVersion",
+    "country",
+    "name",
+    "maintenance",
+    "labels",
+    "vertical",
+    "dimensions",
+    "inferredSupports",
+    "surfaces",
+    "barriers",
+    "tunnels", "roofs", "vegetation", "furniture", "sports",
+    "steps",
+    "groups",
+    "classes",
+    "rules",
+    "checks",
+    "knownValues"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "profileVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "country": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "maintenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reviewed",
+        "process",
+        "scope"
+      ],
+      "properties": {
+        "reviewed": {
+          "type": "string",
+          "format": "date"
+        },
+        "process": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        }
+      }
+    },
+    "labels": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nameKeys"
+      ],
+      "properties": {
+        "nameKeys": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "vertical": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layerStepMeters",
+        "rampMeters",
+        "assumedBridgeLayer",
+        "note"
+      ],
+      "properties": {
+        "layerStepMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "rampMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "assumedBridgeLayer": {
+          "type": "integer"
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "dimensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "metersPerLevel",
+        "defaultBuildingHeightMeters"
+      ],
+      "properties": {
+        "metersPerLevel": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "defaultBuildingHeightMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "inferredSupports": {
+      "description": "Parametry podpór wnioskowanych z geometrii. Takie obiekty nie są danymi OSM.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "spacingMeters",
+        "minClearanceMeters",
+        "columnWidthMeters",
+        "deckThicknessMeters",
+        "obstacleMarginMeters",
+        "mergeDistanceMeters"
+      ],
+      "properties": {
+        "spacingMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "minClearanceMeters": {
+          "type": "number",
+          "minimum": 0
+        },
+        "columnWidthMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "deckThicknessMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "obstacleMarginMeters": {
+          "type": "number",
+          "minimum": 0
+        },
+        "mergeDistanceMeters": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "surfaces": {
+      "description": "Materiały nawierzchni, linie przebiegu i oznakowanie poziome. Wartości zależne od kraju są wyłącznie tutaj.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "defaultMaterial",
+        "drivingSide",
+        "markingColor",
+        "assumedMarkingColor",
+        "materials",
+        "surfaceMaterials",
+        "laneWidthMeters",
+        "routeLineWidthRatio",
+        "routeLineMinWidthMeters",
+        "routeLineMinPixels",
+        "markingWidthMeters",
+        "edgeLineWidthMeters",
+        "edgeLineInsetMeters",
+        "markingMinPixels",
+        "dashMeters",
+        "gapMeters",
+        "junctionClearMeters",
+        "arrowDistanceMeters",
+        "arrowMinWayMeters",
+        "crossingWidthMeters",
+        "crossingStripeMeters",
+        "crossingPeriodMeters",
+        "routeLineMaxWidthMeters",
+        "cycleCrossingWidthMeters",
+        "crossingBlockMeters",
+        "crossingClearMeters",
+        "arrowHalfLengthMeters",
+        "routeLineCrossingRatio",
+        "crossingMarkings",
+        "crossingCompactPeriodMeters",
+        "crossingCompactStripeMeters"
+      ],
+      "properties": {
+        "defaultMaterial": {
+          "type": "string"
+        },
+        "drivingSide": {
+          "enum": [
+            "right",
+            "left"
+          ]
+        },
+        "markingColor": {
+          "$ref": "#/$defs/color"
+        },
+        "assumedMarkingColor": {
+          "$ref": "#/$defs/color"
+        },
+        "materials": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "label",
+              "color",
+              "accent",
+              "pattern",
+              "markable"
+            ],
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "markable": {
+                "type": "boolean",
+                "description": "Czy na nawierzchni rysowane jest oznakowanie poziome jezdni (linie pasów, krawędziowe, strzałki)."
+              },
+              "color": {
+                "$ref": "#/$defs/color"
+              },
+              "accent": {
+                "$ref": "#/$defs/color"
+              },
+              "pattern": {
+                "enum": [
+                  "speckle",
+                  "pavers",
+                  "planks",
+                  "tread",
+                  "blocks",
+                  "hatch",
+                  "solid"
+                ]
+              }
+            }
+          }
+        },
+        "surfaceMaterials": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "laneWidthMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "routeLineWidthRatio": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "routeLineMinWidthMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "routeLineMinPixels": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "edgeLineWidthMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "edgeLineInsetMeters": {
+          "type": "number",
+          "minimum": 0
+        },
+        "markingWidthMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "markingMinPixels": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "dashMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "gapMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "junctionClearMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "arrowDistanceMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "arrowMinWayMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "crossingWidthMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "crossingStripeMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "crossingPeriodMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "routeLineMaxWidthMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "cycleCrossingWidthMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "crossingBlockMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "crossingClearMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "arrowHalfLengthMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "routeLineCrossingRatio": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "crossingMarkings": {
+          "description": "Znaczenie wartości crossing:markings i crossing w danym kraju. Wartość spoza mapy nie tworzy malowania.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "pattern",
+              "applies",
+              "label"
+            ],
+            "properties": {
+              "pattern": {
+                "enum": [
+                  "zebra",
+                  "blocks",
+                  "edges"
+                ]
+              },
+              "applies": {
+                "enum": [
+                  "foot",
+                  "cycle",
+                  "any"
+                ]
+              },
+              "label": {
+                "type": "string"
+              },
+              "approximate": {
+                "type": "boolean"
+              },
+              "generic": {
+                "type": "boolean",
+                "description": "Wartość mówi tylko, że obiekt jest oznakowany; wzór zależy od rodzaju obiektu."
+              },
+              "cycle": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "pattern",
+                  "label"
+                ],
+                "properties": {
+                  "pattern": {
+                    "enum": [
+                      "zebra",
+                      "blocks",
+                      "edges"
+                    ]
+                  },
+                  "label": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "crossingCompactPeriodMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "crossingCompactStripeMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "barriers": {
+      "description": "Bariery: wysokość i grubość z typu stosowane tylko przy braku tagów; nieznany typ przyjmuje fallback.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fallback",
+        "materials",
+        "types",
+        "nodes"
+      ],
+      "properties": {
+        "fallback": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "height": {
+              "type": "number",
+              "minimum": 0
+            },
+            "thickness": {
+              "type": "number",
+              "minimum": 0
+            },
+            "width": {
+              "type": "number",
+              "minimum": 0
+            },
+            "pattern": {
+              "enum": [
+                "solid",
+                "masonry",
+                "planks",
+                "mesh",
+                "railing",
+                "hedge",
+                "guard",
+                "handrail",
+                "boom",
+                "panel"
+              ]
+            },
+            "shape": {
+              "enum": [
+                "gate",
+                "boom",
+                "post",
+                "block",
+                "kerb",
+                "opening"
+              ]
+            },
+            "opens": {
+              "type": "boolean"
+            },
+            "solidTop": {
+              "type": "boolean"
+            },
+            "color": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "accent": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "generic": {
+              "type": "boolean"
+            }
+          }
+        },
+        "materials": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "color",
+              "accent"
+            ],
+            "properties": {
+              "color": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "accent": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              }
+            }
+          }
+        },
+        "types": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "height": {
+                "type": "number",
+                "minimum": 0
+              },
+              "thickness": {
+                "type": "number",
+                "minimum": 0
+              },
+              "width": {
+                "type": "number",
+                "minimum": 0
+              },
+              "pattern": {
+                "enum": [
+                  "solid",
+                  "masonry",
+                  "planks",
+                  "mesh",
+                  "railing",
+                  "hedge",
+                  "guard",
+                  "handrail",
+                  "boom",
+                  "panel"
+                ]
+              },
+              "shape": {
+                "enum": [
+                  "gate",
+                  "boom",
+                  "post",
+                  "block",
+                  "kerb",
+                  "opening"
+                ]
+              },
+              "opens": {
+                "type": "boolean"
+              },
+              "solidTop": {
+                "type": "boolean"
+              },
+              "color": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "accent": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "generic": {
+                "type": "boolean"
+              },
+              "variants": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "label": {
+                        "type": "string"
+                      },
+                      "height": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "thickness": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "width": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "pattern": {
+                        "enum": [
+                          "solid",
+                          "masonry",
+                          "planks",
+                          "mesh",
+                          "railing",
+                          "hedge",
+                          "guard",
+                          "handrail",
+                          "boom",
+                          "panel"
+                        ]
+                      },
+                      "shape": {
+                        "enum": [
+                          "gate",
+                          "boom",
+                          "post",
+                          "block",
+                          "kerb",
+                          "opening"
+                        ]
+                      },
+                      "opens": {
+                        "type": "boolean"
+                      },
+                      "solidTop": {
+                        "type": "boolean"
+                      },
+                      "color": {
+                        "type": "string",
+                        "pattern": "^#[0-9a-fA-F]{6}$"
+                      },
+                      "accent": {
+                        "type": "string",
+                        "pattern": "^#[0-9a-fA-F]{6}$"
+                      },
+                      "generic": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "nodes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "height": {
+                "type": "number",
+                "minimum": 0
+              },
+              "thickness": {
+                "type": "number",
+                "minimum": 0
+              },
+              "width": {
+                "type": "number",
+                "minimum": 0
+              },
+              "pattern": {
+                "enum": [
+                  "solid",
+                  "masonry",
+                  "planks",
+                  "mesh",
+                  "railing",
+                  "hedge",
+                  "guard",
+                  "handrail",
+                  "boom",
+                  "panel"
+                ]
+              },
+              "shape": {
+                "enum": [
+                  "gate",
+                  "boom",
+                  "post",
+                  "block",
+                  "kerb",
+                  "opening"
+                ]
+              },
+              "opens": {
+                "type": "boolean"
+              },
+              "solidTop": {
+                "type": "boolean"
+              },
+              "color": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "accent": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "generic": {
+                "type": "boolean"
+              },
+              "variants": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "label": {
+                        "type": "string"
+                      },
+                      "height": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "thickness": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "width": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "pattern": {
+                        "enum": [
+                          "solid",
+                          "masonry",
+                          "planks",
+                          "mesh",
+                          "railing",
+                          "hedge",
+                          "guard",
+                          "handrail",
+                          "boom",
+                          "panel"
+                        ]
+                      },
+                      "shape": {
+                        "enum": [
+                          "gate",
+                          "boom",
+                          "post",
+                          "block",
+                          "kerb",
+                          "opening"
+                        ]
+                      },
+                      "opens": {
+                        "type": "boolean"
+                      },
+                      "solidTop": {
+                        "type": "boolean"
+                      },
+                      "color": {
+                        "type": "string",
+                        "pattern": "^#[0-9a-fA-F]{6}$"
+                      },
+                      "accent": {
+                        "type": "string",
+                        "pattern": "^#[0-9a-fA-F]{6}$"
+                      },
+                      "generic": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "steps": {
+      "description": "Parametry i wygląd schodów. Wartości domyślne są jawnymi założeniami i są oznaczane jako przybliżone.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "defaultRiserMeters",
+        "minRiserMeters",
+        "maxRiserMeters",
+        "defaultTreadMeters",
+        "minTreadMeters",
+        "flatRiseMeters",
+        "landingEverySteps",
+        "landingLengthMeters"
+      ],
+      "properties": {
+        "defaultRiserMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "minRiserMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "maxRiserMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "defaultTreadMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "minTreadMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "flatRiseMeters": {
+          "type": "number",
+          "minimum": 0
+        },
+        "landingEverySteps": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "landingLengthMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "groups": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "label",
+          "defaultVisible"
+        ],
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "defaultVisible": {
+            "type": "boolean"
+          },
+          "parent": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "classes": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^[a-z]+(\\.[a-z_]+)?$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/class"
+      }
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/rule"
+      }
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/check"
+      }
+    },
+    "knownValues": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1
+      }
+    },
+    "furniture": {"description": "Bryły oświetlenia i linii energetycznych: wymiary domyślne i kolory (założenia prezentacyjne).", "type": "object", "additionalProperties": false, "required": ["streetLamps", "floodlights", "power", "doors", "gates"], "properties": {"note": {"type": "string"}, "streetLamps": {"type": "object", "additionalProperties": false, "required": ["heightMeters", "armMeters", "lowHeightMeters", "wallHeightMeters", "highMastMeters", "lowSupports", "wallSupports", "roadSearchMeters", "colour", "headColour"], "properties": {"source": {"type": "string"}, "heightMeters": {"type": "number", "exclusiveMinimum": 0}, "armMeters": {"type": "number", "minimum": 0}, "lowHeightMeters": {"type": "number", "exclusiveMinimum": 0}, "wallHeightMeters": {"type": "number", "exclusiveMinimum": 0}, "highMastMeters": {"type": "number", "exclusiveMinimum": 0}, "lowSupports": {"type": "array", "items": {"type": "string"}}, "wallSupports": {"type": "array", "items": {"type": "string"}}, "roadSearchMeters": {"type": "number", "exclusiveMinimum": 0}, "colour": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}, "headColour": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}}}, "floodlights": {"type": "object", "additionalProperties": false, "required": ["heightMeters", "colour", "headColour"], "properties": {"source": {"type": "string"}, "heightMeters": {"type": "number", "exclusiveMinimum": 0}, "colour": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}, "headColour": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}}}, "power": {"type": "object", "additionalProperties": false, "required": ["distributionMaxVoltage", "pole", "tower", "sagFraction", "defaultCables", "maxCables", "wireColour", "transformerColour"], "properties": {"source": {"type": "string"}, "distributionMaxVoltage": {"type": "number", "exclusiveMinimum": 0}, "pole": {"type": "object", "additionalProperties": false, "required": ["heightMeters", "spacingMeters", "colour"], "properties": {"heightMeters": {"type": "number", "exclusiveMinimum": 0}, "spacingMeters": {"type": "number", "exclusiveMinimum": 0}, "colour": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}}}, "tower": {"type": "object", "additionalProperties": false, "required": ["heightMeters", "levels", "armMeters", "colour"], "properties": {"heightMeters": {"type": "number", "exclusiveMinimum": 0}, "levels": {"type": "array", "minItems": 1, "items": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}}, "armMeters": {"type": "array", "minItems": 1, "items": {"type": "number", "exclusiveMinimum": 0}}, "colour": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}}}, "sagFraction": {"type": "number", "minimum": 0, "maximum": 0.2}, "defaultCables": {"type": "integer", "minimum": 1}, "maxCables": {"type": "integer", "minimum": 1}, "wireColour": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}, "transformerColour": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}}}, "doors": {"type": "object", "additionalProperties": false, "required": ["searchMeters", "default", "kinds", "doorTypes", "colours"], "properties": {"note": {"type": "string"}, "source": {"type": "string"}, "searchMeters": {"type": "number", "exclusiveMinimum": 0}, "default": {"type": "object", "additionalProperties": false, "required": ["width", "height", "leaves"], "properties": {"width": {"type": "number", "exclusiveMinimum": 0}, "height": {"type": "number", "exclusiveMinimum": 0}, "leaves": {"type": "integer", "minimum": 1, "maximum": 4}, "glass": {"type": "boolean"}, "door": {"type": "string"}, "sign": {"type": "boolean"}}}, "kinds": {"type": "object", "additionalProperties": {"type": "object", "additionalProperties": false, "required": ["width", "height", "leaves"], "properties": {"width": {"type": "number", "exclusiveMinimum": 0}, "height": {"type": "number", "exclusiveMinimum": 0}, "leaves": {"type": "integer", "minimum": 1, "maximum": 4}, "glass": {"type": "boolean"}, "door": {"type": "string"}, "sign": {"type": "boolean"}}}}, "doorTypes": {"type": "array", "items": {"type": "string"}}, "colours": {"type": "object", "required": ["frame", "leaf", "glass", "overhead", "opening", "sign", "handle"], "additionalProperties": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}}}}, "gates": {"type": "object", "additionalProperties": false, "required": ["doubleLeafMinWidth", "doubleLeafBarriers", "vehicleGroups", "slidingTypes", "slidingBarriers", "materials"], "properties": {"note": {"type": "string"}, "source": {"type": "string"}, "doubleLeafMinWidth": {"type": "number", "exclusiveMinimum": 0}, "doubleLeafBarriers": {"type": "array", "items": {"type": "string"}}, "vehicleGroups": {"type": "array", "items": {"type": "string"}}, "slidingTypes": {"type": "array", "items": {"type": "string"}}, "slidingBarriers": {"type": "array", "items": {"type": "string"}}, "materials": {"type": "object", "additionalProperties": {"type": "object", "additionalProperties": false, "required": ["pattern", "color"], "properties": {"pattern": {"type": "string"}, "color": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}}}}}}}},
+    "sports": {"description": "Boiska i bieżnie: kolory nawierzchni oraz wymiary z przepisów dyscyplin do rysowania linii i wyposażenia.", "type": "object", "additionalProperties": false, "required": ["surfaces", "lineColour", "equipmentColour", "netColour", "minFill", "aspectTolerance", "pitches", "track"], "properties": {"note": {"type": "string"}, "source": {"type": "string"}, "surfaces": {"type": "object", "additionalProperties": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}}, "lineColour": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}, "equipmentColour": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}, "netColour": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}, "minFill": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}, "aspectTolerance": {"type": "number", "exclusiveMinimum": 0}, "pitches": {"type": "object", "additionalProperties": {"type": "object", "additionalProperties": false, "required": ["length", "width", "line"], "properties": {"length": {"type": "number", "exclusiveMinimum": 0}, "width": {"type": "number", "exclusiveMinimum": 0}, "line": {"type": "number", "exclusiveMinimum": 0}}}}, "track": {"type": "object", "additionalProperties": false, "required": ["laneMeters", "line", "lanedSports"], "properties": {"source": {"type": "string"}, "laneMeters": {"type": "number", "exclusiveMinimum": 0}, "line": {"type": "number", "exclusiveMinimum": 0}, "lanedSports": {"type": "array", "items": {"type": "string"}}}}}},
+    "vegetation": {
+      "description": "Roślinność 3D: formy (wymiary domyślne), źródła w klasach, kształty koron z leaf_type, wypełnienie obszarów i zasięgi szczegółowości.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "forms", "sources", "defaultLeafType", "crowns", "coneBaseFraction", "roundMaxFraction", "fillJitter", "colours", "colourVariation", "lod", "clearance"],
+      "properties": {
+        "note": { "type": "string" },
+        "source": { "type": "string" },
+        "forms": {"type": "object", "additionalProperties": {"type": "object", "additionalProperties": false, "required": ["label", "heightMeters", "crownDiameterMeters", "trunkDiameterMeters"], "properties": {"label": {"type": "string"}, "heightMeters": {"type": "number", "exclusiveMinimum": 0}, "crownDiameterMeters": {"type": "number", "exclusiveMinimum": 0}, "trunkDiameterMeters": {"type": "number", "minimum": 0}, "crown": {"enum": ["round", "cone"]}, "crownBaseFraction": {"type": "number", "minimum": 0, "exclusiveMaximum": 1}, "colour": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}, "growsInWater": {"type": "boolean"}, "palette": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}}}}},
+        "sources": {"type": "object", "additionalProperties": {"oneOf": [{"type": "object", "additionalProperties": false, "required": ["placement"], "properties": {"form": {"type": "string"}, "placement": {"enum": ["point", "row", "fill"]}, "spacingMeters": {"type": "number", "exclusiveMinimum": 0}, "mix": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["form", "share"], "properties": {"form": {"type": "string"}, "share": {"type": "number", "exclusiveMinimum": 0}}}}}, "oneOf": [{"required": ["form"]}, {"required": ["mix"]}]}, {"type": "object", "additionalProperties": false, "required": ["byTag", "default", "values"], "properties": {"byTag": {"type": "string"}, "source": {"type": "string"}, "default": {"type": "object", "additionalProperties": false, "required": ["placement"], "properties": {"form": {"type": "string"}, "placement": {"enum": ["point", "row", "fill"]}, "spacingMeters": {"type": "number", "exclusiveMinimum": 0}, "mix": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["form", "share"], "properties": {"form": {"type": "string"}, "share": {"type": "number", "exclusiveMinimum": 0}}}}}, "oneOf": [{"required": ["form"]}, {"required": ["mix"]}]}, "values": {"type": "object", "additionalProperties": {"oneOf": [{"type": "object", "additionalProperties": false, "required": ["placement"], "properties": {"form": {"type": "string"}, "placement": {"enum": ["point", "row", "fill"]}, "spacingMeters": {"type": "number", "exclusiveMinimum": 0}, "mix": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["form", "share"], "properties": {"form": {"type": "string"}, "share": {"type": "number", "exclusiveMinimum": 0}}}}}, "oneOf": [{"required": ["form"]}, {"required": ["mix"]}]}, {"type": "null"}]}}}}]}},
+        "defaultLeafType": { "type": "string" },
+        "crowns": { "type": "object", "additionalProperties": { "enum": ["round", "cone"] } },
+        "coneBaseFraction": { "type": "number", "minimum": 0, "exclusiveMaximum": 1 },
+        "roundMaxFraction": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+        "fillJitter": { "type": "number", "minimum": 0, "maximum": 0.5 },
+        "colours": { "type": "object", "required": ["trunk"], "additionalProperties": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" } },
+        "colourVariation": { "type": "number", "minimum": 0, "maximum": 0.5 },
+        "lod": { "type": "object", "additionalProperties": false, "required": ["nearMeters", "farMeters"], "properties": { "nearMeters": { "type": "number", "exclusiveMinimum": 0 }, "farMeters": { "type": "number", "exclusiveMinimum": 0 } } },
+        "clearance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["lineGroups", "minMeters", "areaGroups", "areaClasses"],
+          "properties": {
+            "note": { "type": "string" },
+            "lineGroups": { "type": "array", "items": { "type": "string" } },
+            "minMeters": { "type": "number", "minimum": 0 },
+            "areaGroups": { "type": "array", "items": { "type": "string" } },
+            "areaClasses": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "roofs": {
+      "description": "Dachy: kształty z roof:shape, wysokość domyślna przy braku roof:height/roof:angle/roof:levels i założenia prezentacyjne kształtów.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "defaultHeightLevels", "shapes", "flatShapes", "aliases", "parameters", "defaultColour", "materials"],
+      "properties": {
+        "note": { "type": "string" },
+        "source": { "type": "string" },
+        "defaultHeightLevels": { "type": "number", "minimum": 0 },
+        "shapes": { "type": "array", "items": { "type": "string" } },
+        "flatShapes": { "type": "array", "items": { "type": "string" } },
+        "aliases": { "type": "object", "additionalProperties": { "type": "string" } },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "halfHipGableFraction": { "type": "number", "minimum": 0, "maximum": 1 },
+            "saltboxShortFraction": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 0.5 },
+            "gambrelBreakInset": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1 },
+            "gambrelBreakHeight": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1 },
+            "mansardBreakInset": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1 },
+            "mansardBreakHeight": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1 },
+            "curveSegments": { "type": "integer", "minimum": 2, "maximum": 32 }
+          }
+        },
+        "defaultColour": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+        "materials": { "type": "object", "additionalProperties": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" } }
+      }
+    },
+    "tunnels": {
+      "description": "Tuba tunelu: prześwit i zapas szerokości z grupy trasy stosowane tylko przy braku tagów.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "wallMeters",
+        "slabMeters",
+        "cutBelowMeters",
+        "colors",
+        "groups",
+        "fallback"
+      ],
+      "properties": {
+        "note": {
+          "type": "string"
+        },
+        "wallMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "slabMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "cutBelowMeters": {
+          "type": "number",
+          "minimum": 0
+        },
+        "colors": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "inner",
+            "floor",
+            "outer",
+            "portal"
+          ],
+          "properties": {
+            "inner": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "floor": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "outer": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "portal": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            }
+          }
+        },
+        "groups": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "clearance",
+              "sideMargin"
+            ],
+            "properties": {
+              "clearance": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "sideMargin": {
+                "type": "number",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "fallback": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "clearance",
+            "sideMargin"
+          ],
+          "properties": {
+            "clearance": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "sideMargin": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "color": {
+      "type": "string",
+      "pattern": "^#[0-9a-f]{6}$"
+    },
+    "class": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "group",
+        "render",
+        "color",
+        "tier"
+      ],
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "group": {
+          "type": "string"
+        },
+        "render": {
+          "enum": [
+            "line",
+            "area",
+            "extrude",
+            "point",
+            "structure",
+            "support"
+          ]
+        },
+        "color": {
+          "$ref": "#/$defs/color"
+        },
+        "casing": {
+          "$ref": "#/$defs/color"
+        },
+        "widthMeters": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "minPixels": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "tier": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "order": {
+          "type": "integer"
+        },
+        "colorByTag": {"type": "string", "description": "Kolor obszaru z wartości tagu (np. surface) według mapy kolorów w profilu."},
+        "note": {
+          "type": "string"
+        },
+        "maxGrade": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Największy spadek przebiegu w modelu prezentacyjnym (m/m)."
+        },
+        "levelCheck": {
+          "enum": [
+            "transport",
+            "water",
+            "none"
+          ]
+        },
+        "contextObstacle": {
+          "type": "boolean"
+        },
+        "carriageway": {
+          "type": "boolean"
+        },
+        "stairs": {
+          "type": "boolean"
+        },
+        "impact": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "surfaced": {
+          "type": "boolean"
+        },
+        "routeLine": {
+          "type": "string"
+        },
+        "lineColor": {
+          "$ref": "#/$defs/color"
+        }
+      }
+    },
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "op"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "op": {
+          "enum": [
+            "exists",
+            "absent",
+            "eq",
+            "ne",
+            "in",
+            "notIn"
+          ]
+        },
+        "value": {
+          "type": "string"
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "enum": [
+                  "eq",
+                  "ne"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "value"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "enum": [
+                  "in",
+                  "notIn"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "values"
+            ]
+          }
+        }
+      ]
+    },
+    "when": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "all": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/condition"
+          }
+        },
+        "any": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/condition"
+          }
+        },
+        "none": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/condition"
+          }
+        },
+        "geometry": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "point",
+              "line",
+              "area"
+            ]
+          },
+          "minItems": 1
+        },
+        "classPrefix": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "memberOfRoute": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "phase",
+        "order",
+        "when",
+        "source",
+        "rationale"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9.-]+$"
+        },
+        "phase": {
+          "enum": [
+            "classify",
+            "attribute"
+          ]
+        },
+        "order": {
+          "type": "integer"
+        },
+        "when": {
+          "$ref": "#/$defs/when"
+        },
+        "setClass": {
+          "type": "string"
+        },
+        "setAttributes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "boolean",
+              "number"
+            ]
+          }
+        },
+        "readNumber": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "attribute",
+            "key",
+            "min",
+            "max"
+          ],
+          "properties": {
+            "attribute": {
+              "type": "string"
+            },
+            "key": {
+              "type": "string"
+            },
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            },
+            "integer": {
+              "type": "boolean"
+            }
+          }
+        },
+        "source": {
+          "type": "string",
+          "format": "uri"
+        },
+        "rationale": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "phase": {
+                "const": "classify"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "setClass"
+            ]
+          }
+        }
+      ]
+    },
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "category",
+        "severity",
+        "confidence",
+        "when",
+        "message",
+        "source"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9.-]+$"
+        },
+        "category": {
+          "enum": [
+            "missing",
+            "uncertain"
+          ]
+        },
+        "severity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "confidence": {
+          "enum": [
+            "niska",
+            "średnia",
+            "wysoka"
+          ]
+        },
+        "when": {
+          "$ref": "#/$defs/when"
+        },
+        "message": {
+          "type": "string"
+        },
+        "suggest": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "key",
+              "reason",
+              "doc"
+            ],
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              },
+              "doc": {
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          }
+        },
+        "source": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    }
+  }
+}
